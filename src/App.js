@@ -7,14 +7,27 @@ class App extends Component {
   state = {
     inputText: "text",
   };
+
   textChangeHandler = (event) => {
     this.setState({ inputText: event.target.value });
   };
 
+  deleteCharHandler = (index) => {
+    const text = this.state.inputText.split('')
+    text.splice(index, 1)
+    const updatedText = text.join('')
+    this.setState( {inputText: updatedText})
+  };
+
   render() {
-    const charList = this.state.inputText.split('').map((char) => {
-      return <CharComponent char={char} />;
+    const charList = this.state.inputText.split("").map((char, index) => {
+      return <CharComponent 
+        char={char} 
+        key={index} 
+        clicked={() => this.deleteCharHandler(index)} />
+    
     });
+
     return (
       <div className="App">
         <header className="App-header">
@@ -26,9 +39,7 @@ class App extends Component {
           <ValidationComponent inputText={this.state.inputText} />
           <p>{this.state.inputText.length}</p>
 
-          <div>
-            {charList}
-          </div>
+          <div>{charList}</div>
 
           <hr />
           <ol>
